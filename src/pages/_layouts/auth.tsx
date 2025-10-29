@@ -20,7 +20,7 @@ export function AuthLayout() {
                 </div>
 
                 <footer className="text-sm">
-                    Painel do parceiro &copy; pizza.shop - {new Date().getFullYear()}
+                    Painel do parceiro &copy; Pizza Shop - {new Date().getFullYear()}
 
                 </footer>
 
@@ -29,7 +29,7 @@ export function AuthLayout() {
             
             
 
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex relative flex-col items-center justify-center">
                 <Outlet/>
             </div>
         </div>

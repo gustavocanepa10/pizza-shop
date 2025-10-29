@@ -1,14 +1,15 @@
 import { RouterProvider } from "react-router-dom";
 import "./index.css";
-import { router } from "./routes";
+import { routerProvider } from "./routes";
+import { Toaster } from "sonner";
 
 
 export function App() {
   return (
     <>
      
-      
-        <RouterProvider router={router} />
+        <Toaster richColors closeButton  />
+        <RouterProvider router={routerProvider} />
       
     </>
   );
