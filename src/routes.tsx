@@ -20,5 +20,10 @@ export const routerProvider = createBrowserRouter([
                     {path : "/sign-up", element : <SignUp/>}
         ]
         
+    },
+
+    {path : "/orders", element : <AppLayout/>,
+        children : [{path : "/orders", element : <Dasboard/>}]
     }
+    
 ])
