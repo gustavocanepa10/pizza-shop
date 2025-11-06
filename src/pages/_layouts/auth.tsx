@@ -13,7 +13,7 @@ export function AuthLayout() {
             flex flex-col justify-between">
 
                 <div className="flex items-center gap-3 text-lg font-medium text-foreground">
-                <Pizza className="h-5 w-5"  />
+                <Pizza className="h-5 w-5"/>
                 <span className="font-semibold">
                     Pizza Shop
                 </span>

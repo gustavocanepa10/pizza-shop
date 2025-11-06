@@ -38,7 +38,7 @@ export function SignIn() {
   return (
     <>
       <div className="p-8 ">
-        <Button variant = "ghost" className="absolute right-8 top-8" asChild>
+        <Button className="absolute right-8 top-8" asChild>
         <Link to="/sign-up">
         Novo estabelecimento
         </Link>
