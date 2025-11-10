@@ -5,6 +5,7 @@ import { AppLayout } from "./pages/_layouts/app";
 import { AuthLayout } from "./pages/_layouts/auth";
 import { SignUp } from "./pages/auth/Sign-up";
 import {Orders} from "./pages/app/orders/Orders"
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 
 
@@ -28,6 +29,11 @@ export const routerProvider = createBrowserRouter([
 
     {path : "/orders", element : <AppLayout/>,
         children : [{path : "/orders", element : <Dasboard/>}]
+    },
+
+    {path : "*", element : <AppLayout/>,
+        children : [{path : "*", element : <NotFoundPage/>}  ]
     }
+
     
 ])
