@@ -4,11 +4,12 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "@/api/signIn";
 
 export function SignIn() {
+  const [searchParams] = useSearchParams();
   const signInForm = z.object({
     email: z.email("digite um e-mail válido"),
   });
@@ -19,24 +20,23 @@ export function SignIn() {
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<SignForm>();
+  } = useForm<SignForm>({
+    defaultValues: {
+      email: searchParams.get("email") ?? "",
+    },
+  });
 
-  const {mutateAsync : authenticate } = useMutation({
-    mutationFn : signIn,
-    retry : 3
-  })
-  
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: signIn,
+  });
 
   async function handleSignIn(data: SignForm) {
     try {
       console.log(data);
 
-      await authenticate({email : data.email})
+      await authenticate({ email: data.email });
 
-      toast.success("Enviamos um link de autenticação para o seu e-mail.")
-    
-
-    
+      toast.success("Enviamos um link de autenticação para o seu e-mail.");
     } catch (error) {
       console.log(error);
       toast.error("Credenciais inválidas.");
@@ -47,9 +47,7 @@ export function SignIn() {
     <>
       <div className="p-8 ">
         <Button className="absolute right-8 top-8" asChild>
-        <Link to="/sign-up">
-        Novo estabelecimento
-        </Link>
+          <Link to="/sign-up">Novo estabelecimento</Link>
         </Button>
         <div className="w-[320px] flex flex-col justify-center gap-6 ">
           <div className="flex flex-col gap-2 text-center">
