@@ -12,7 +12,7 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 
 export const routerProvider = createBrowserRouter([
 
-    {path : "/dashboard", element : <AppLayout/>, 
+    {path : "/", element : <AppLayout/>, 
         children : [
             {index: true, element : <Dasboard/>},
             {path : "orders", element : <Orders/>}
@@ -21,7 +21,7 @@ export const routerProvider = createBrowserRouter([
 
    
     {path : "/", element : <AuthLayout/>, 
-        children : [{path : "/", element : <SignIn/>},
+        children : [{path : "/sign-in", element : <SignIn/>},
                     {path : "/sign-up", element : <SignUp/>}
         ]
         
