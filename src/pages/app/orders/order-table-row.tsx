@@ -9,8 +9,22 @@ import { Button } from "../../../components/ui/button";
 import { Search, X, CheckCircle } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { OrderDetails } from "./order-details";
+import { OrderStatus } from "@/components/ui/order-status";
+import {formatDistanceToNow} from "date-fns"
+import {ptBR} from "date-fns/locale"
 
-export function OrderTableRow() {
+
+interface orderTableRow {
+  order: {
+        orderId: string;
+        createdAt: string;
+        status: "pending" | "canceled" | "processing" | "delivering" | "delivered";
+        customerName: string;
+        total: number;
+    };
+}
+
+export function OrderTableRow({order} : orderTableRow) {
   return (
     <TableRow>
       <TableCell>
@@ -26,21 +40,25 @@ export function OrderTableRow() {
       </TableCell>
 
       <TableCell className="font-mono text-xs font-medium">
-        08a0damwdoa
+        {order.orderId}
       </TableCell>
 
-      <TableCell className="text-muted-foreground">há 15 minutos</TableCell>
+      <TableCell className="text-muted-foreground">{formatDistanceToNow(order.createdAt, {
+        locale : ptBR,
+        addSuffix : true
+      })}</TableCell>
 
       <TableCell>
-        <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-slate-400"></span>
-          <span>Pendente</span>
-        </div>
+        <OrderStatus status={order.status}/>
+        
       </TableCell>
 
-      <TableCell className="font-medium">João Gustavo</TableCell>
+      <TableCell className="font-medium">{order.customerName}</TableCell>
 
-      <TableCell className="font-medium">R$ 110,00</TableCell>
+      <TableCell className="font-medium">{order.total.toLocaleString("pt-BR", {
+        style : "currency",
+        currency : "BRL"
+      })}</TableCell>
 
       <TableCell>
         <Button variant="ghost" size="sm">

@@ -8,6 +8,8 @@ interface UpdateProfile {
 
 export async function UpdateProfileRestaurant({name, description} : UpdateProfile) {
 
-    api.put("/profile", {name,description})
+    const response = await api.put("/profile", {name,description})
+
+    return response.data
 
 }

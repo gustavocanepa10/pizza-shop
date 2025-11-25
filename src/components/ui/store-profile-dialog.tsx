@@ -14,9 +14,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UpdateProfileRestaurant } from "@/api/update-profile";
+import { UpdateProfileRestaurant } from "@/api/update-restaurant-profile";
 import { toast } from "sonner";
-import { DialogClose } from "@radix-ui/react-dialog";
+import { DialogClose } from "./dialog"
 
 const storeProfileSchema = z.object({
   name: z.string().min(1),
@@ -26,8 +26,7 @@ const storeProfileSchema = z.object({
 type StoreProfile = z.infer<typeof storeProfileSchema>;
 
 export function StoreProfileDialog() {
-
-    const queryclient = useQueryClient()
+  const queryclient = useQueryClient();
 
   const { data: managedRestaurant } = useQuery({
     queryKey: ["managed-restaurant"],
@@ -36,17 +35,18 @@ export function StoreProfileDialog() {
 
   const { mutateAsync: updateRestaurant } = useMutation({
     mutationFn: UpdateProfileRestaurant,
-    onSuccess(_, {name, description}) {
-        const cached = queryclient.getQueryData<GetManagedRestaurant>(['managed-restaurant'])
-        
-        if (cached) {
-          queryclient.setQueryData<GetManagedRestaurant>(['managed-restaurant'], {
-            ...cached,
-            name,
-            description
-          })
-        }
-        
+    onSuccess(_, { name, description }) {
+      const cached = queryclient.getQueryData<GetManagedRestaurant>([
+        "managed-restaurant",
+      ]);
+
+      if (cached) {
+        queryclient.setQueryData<GetManagedRestaurant>(["managed-restaurant"], {
+          ...cached,
+          name,
+          description,
+        });
+      }
     },
   });
 
@@ -65,9 +65,9 @@ export function StoreProfileDialog() {
         description: data.description,
       });
 
-      toast.success("Perfil atualizado com sucesso!")
+      toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
-      toast.error("Não foi possivel atualizar o perfil")
+      toast.error("Não foi possivel atualizar o perfil");
       console.log(error);
     }
   }
@@ -102,15 +102,18 @@ export function StoreProfileDialog() {
         </div>
 
         <DialogFooter>
-            <DialogClose asChild>
+          <DialogClose asChild>
             <Button variant="ghost" type="button">
-            Cancelar
-          </Button>
-            </DialogClose>
-          
-          <Button  variant="sucess" type="submit">
+              Cancelar
+            </Button>
+          </DialogClose>
+
+        <DialogClose asChild>
+        <Button variant="sucess" type="submit">
             Salvar
           </Button>
+        </DialogClose>
+          
         </DialogFooter>
       </form>
     </DialogContent>

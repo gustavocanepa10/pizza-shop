@@ -7,15 +7,20 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "./dropdown-menu";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getProfile } from "@/api/get-profile";
 import { GetManagedRestaurant } from "@/api/get-managed-restaurant";
 import { Skeleton } from "./skeleton";
 import { Dialog } from "./dialog";
 import { DialogTrigger } from "../ui/dialog";
 import { StoreProfileDialog } from "./store-profile-dialog";
+import { SignOut } from "@/api/sign-out";
+import { useNavigate } from "react-router-dom";
 
 export function AccountMenu() {
+
+
+  const navigate = useNavigate()
 
   const {data : profile, isLoading : isLoadingProfile} = useQuery({
     queryKey : ["profile"],
@@ -26,6 +31,15 @@ export function AccountMenu() {
   const {data : managedRestaurant, isLoading : isLoadingManagedRestaurant } = useQuery({
     queryKey : ["managed-restaurant"],
     queryFn : GetManagedRestaurant
+  })
+
+  const {mutateAsync : signOutFn} = useMutation({
+    mutationFn : SignOut,
+    onSuccess : () => {
+      navigate("/sign-in", {replace : true})
+    }
+    
+
   })
 
   return (
@@ -72,9 +86,12 @@ export function AccountMenu() {
         </DropdownMenuItem>
         </DialogTrigger>
        
-        <DropdownMenuItem className="text-rose-500 dark:text-rose-400">
+        <DropdownMenuItem asChild className="text-rose-500 dark:text-rose-400">
+          <button className="w-full" onClick={() => signOutFn()} >
           <LogOut color="oklch(64.5% 0.246 16.439)" className="w-4 h-4 mr-2" />
           <span>Sair</span>
+          </button>
+          
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

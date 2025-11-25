@@ -10,10 +10,30 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
+import { useQuery } from "@tanstack/react-query";
+import { getOrders } from "@/api/get-orders";
+import { useSearchParams } from "react-router-dom";
+import z from "zod";
 
 
 
 export function Orders() {
+
+  const [searchParams, setSearchParams] = useSearchParams()
+
+
+  const pageIndex = z.coerce.number()
+  .transform(page => page - 1)
+  .parse(searchParams.get("page") ?? "1")
+
+
+
+  const {data : ordersData} = useQuery({
+    queryKey : ["orders"],
+    queryFn : () => getOrders({pageIndex})
+
+  })
+
   return (
     <div className="flex flex-col pl-7 gap-6">
       <h1 className="text-3xl font-bold -tracking-wide">Pedidos</h1>
@@ -37,15 +57,16 @@ export function Orders() {
             </TableHeader>
 
             <TableBody>
-              {Array.from({ length: 105}).map((_, i) => {
-              return <OrderTableRow/>
-              
-               
-              })}
+              {ordersData && ordersData.orders.map((order) => (
+                <OrderTableRow key={order.orderId} order = {order} />)
+              )
+              }
             </TableBody>
           </Table>
         </div>
-        <Pagination pageIndex={0} totalCount={105} perPage={10}/>
+       {ordersData && (
+         <Pagination pageIndex={ordersData.meta.pageIndex} totalCount={ordersData.meta.totalCount} perPage={ordersData.meta.perPage}/>
+       )}
       </div>
     </div>
   );

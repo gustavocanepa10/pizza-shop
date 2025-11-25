@@ -27,8 +27,8 @@ export const routerProvider = createBrowserRouter([
         
     },
 
-    {path : "/orders", element : <AppLayout/>,
-        children : [{path : "/orders", element : <Dasboard/>}]
+    {path : "/", element : <AppLayout/>,
+        children : [{path : "/dashboard", element : <Dasboard/>}]
     },
 
     {path : "*", element : <AppLayout/>,

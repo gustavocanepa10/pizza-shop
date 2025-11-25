@@ -14,5 +14,6 @@ interface registerRestaurant {
 export async function registerRestaurant({
     email,restaurantName,phone
 } : registerRestaurant) {
-    await api.post("/restaurants", {email,restaurantName,phone})
+    const response = await api.post("/restaurants", {email,restaurantName,phone})
+    return response.data
 }
